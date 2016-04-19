@@ -52,6 +52,13 @@ yargs.options({
 .argv;
 
 var command = argv._[0];
+function getAccounts(masterPassword){
+
+}
+function saveAccounts(accounts,masterPassword){
+
+}
+
 
 function createAccount(account,masterPassword) {
 
