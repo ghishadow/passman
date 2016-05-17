@@ -15,7 +15,7 @@ yargs.options({
 	username: {
 		demand : true ,
 		alias : 'u',
-		description : 'Account username or email'
+		description : 'Account username or email',
 		type : 'string'
 	},
 	password: {
@@ -27,7 +27,7 @@ yargs.options({
 	masterPassword: {
 		demand: true,
 		alias: 'm' ,
-		description: 'Master password'
+		description: 'Master password',
 		type: 'string'
 	}
 }).help('help');
@@ -43,12 +43,12 @@ yargs.options({
 	masterPassword: {
 		demand: true,
 		alias: 'm' ,
-		description: 'Master password'
+		description: 'Master password',
 		type: 'string'
 	}
 	}).help('help');
 })
-.help('help');
+.help('help')
 .argv;
 
 var command = argv._[0];
