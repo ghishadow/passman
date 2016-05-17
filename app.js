@@ -1,5 +1,5 @@
 console.log('starting PassMan.............');
-
+var crypto = require('crypto-js');
 var storage = require('node-persist');
 storage.initSync();
 
@@ -53,27 +53,34 @@ yargs.options({
 
 var command = argv._[0];
 function getAccounts(masterPassword){
+var encrpytedAccount = storage.getItemSync('accounts');
+var accounts = [];
 
+if(typeof encrpytedAccount !== 'undefined'){
+	var bytes = crypto.AES.decrypt(encrpytedAccount, masterPassword);
+	var accounts = JSON.parse(bytes.toString(crypto.enc.Utf8));
+	return accounts;
+}
 }
 function saveAccounts(accounts,masterPassword){
+var encrpytedAccounts = crypto.AES.encrpyt(JSON.stringify(accounts),masterPassword);
 
+storage.setItemSync('accounts',encrpytedAccounts);
+return accounts;
 }
 
 
 function createAccount(account,masterPassword) {
 
-	var accounts = storage.getItemSync('accounts');
-	if(typeof accounts === undefined){
-			accounts = [];
-	}
+	var accounts = getAccounts(masterPassword);
 	accounts.push(account);
-	storage.setItemSync('accounts',accounts);
-	return account;
+saveAccounts(accounts, masterPassword);
+return account;
 
 }
 
 function getAccount(accountName,masterPassword){
-	var accounts = storage.getItemSync('accounts');
+	var accounts = getAccounts(masterPassword);
 	var matchedAccount;
 	accounts.forEach(function(account){
 		if (account.name === accountName) {
